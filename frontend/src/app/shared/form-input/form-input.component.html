@@ -1,0 +1,41 @@
+<div class="form-input">
+  <label [class.error]="showErrors()" [for]="id">{{ label() }}</label>
+
+  @if (type() === 'password') {
+    <div class="input-wrapper">
+      <input
+        pInputText
+        [id]="id"
+        [type]="inputType()"
+        [placeholder]="placeholder()"
+        [formField]="field()"
+        [class.p-invalid]="showErrors()"
+      />
+      <button type="button" class="toggle-btn" (click)="toggleVisibility()">
+        <i [class]="showPassword() ? 'pi pi-eye-slash' : 'pi pi-eye'"></i>
+      </button>
+    </div>
+  } @else if (type() === 'textarea') {
+    <textarea
+      pInputTextarea
+      [id]="id"
+      [placeholder]="placeholder()"
+      [formField]="field()"
+      rows="4"
+      [class.p-invalid]="showErrors()"
+    ></textarea>
+  } @else {
+    <input
+      pInputText
+      [id]="id"
+      [type]="type()"
+      [placeholder]="placeholder()"
+      [formField]="field()"
+      [class.p-invalid]="showErrors()"
+    />
+  }
+
+  @if (showErrors()) {
+    <small class="error-text">{{ errors()[0].message }}</small>
+  }
+</div>

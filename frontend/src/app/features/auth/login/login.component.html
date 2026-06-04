@@ -1,0 +1,31 @@
+<form (ngSubmit)="submit()">
+  <p-card>
+    <p class="subtitle">Sign in</p>
+
+    <div class="form-container">
+      <app-form-input [field]="loginForm.email" type="email" label="Email"></app-form-input>
+      <app-form-input [field]="loginForm.password" type="password" label="Password"></app-form-input>
+
+      <p-button class="submit-btn" label="Sign in" (onClick)="submit()"/>
+
+      <div class="divider">
+        <span>or</span>
+      </div>
+
+      <button type="button" class="ms-signin-btn" (click)="loginWithMicrosoft()">
+        <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" viewBox="0 0 21 21" aria-hidden="true">
+          <rect x="1" y="1" width="9" height="9" fill="#f25022"/>
+          <rect x="11" y="1" width="9" height="9" fill="#7fba00"/>
+          <rect x="1" y="11" width="9" height="9" fill="#00a4ef"/>
+          <rect x="11" y="11" width="9" height="9" fill="#ffb900"/>
+        </svg>
+        <span>Sign in with Microsoft</span>
+      </button>
+
+      <div class="navigate-container">
+        <p>Don't have an account?&nbsp;</p>
+        <p-button routerLink="/register" label="Sign up" link/>
+      </div>
+    </div>
+  </p-card>
+</form>

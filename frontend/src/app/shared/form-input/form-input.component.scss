@@ -1,0 +1,60 @@
+@use "variables" as *;
+
+:host {
+  display: block;
+  width: 100%;
+}
+
+.form-input {
+  display: flex;
+  flex-direction: column;
+
+  label {
+    margin-bottom: 4px;
+    font-size: 14px;
+
+    &.error {
+      color: $error;
+    }
+  }
+
+  input {
+    width: 100%;
+  }
+
+  .input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+
+    input {
+      padding-right: 2.5rem;
+    }
+  }
+
+  .toggle-btn {
+    position: absolute;
+    right: 0.625rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    color: var(--p-text-muted-color);
+    display: flex;
+    align-items: center;
+
+    &:hover {
+      color: var(--p-text-color);
+    }
+  }
+
+  textarea {
+    width: 100%;
+    resize: vertical;
+  }
+
+  .error-text {
+    color: $error;
+    font-size: 12px;
+  }
+}

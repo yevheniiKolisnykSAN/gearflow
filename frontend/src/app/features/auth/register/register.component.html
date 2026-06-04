@@ -1,0 +1,19 @@
+<form (ngSubmit)="submit()">
+  <p-card>
+    <p class="subtitle">Create account</p>
+
+    <div class="form-container">
+      <app-form-input [field]="registerForm.firstName" type="text" label="First Name"></app-form-input>
+      <app-form-input [field]="registerForm.lastName" type="text" label="Last Name"></app-form-input>
+      <app-form-input [field]="registerForm.email" type="email" label="Email"></app-form-input>
+      <app-form-input [field]="registerForm.password" type="password" label="Password"></app-form-input>
+
+      <p-button class="submit-btn" label="Submit" (onClick)="submit()"/>
+
+      <div class="navigate-container">
+        <p>Already have an account?&nbsp;</p>
+        <p-button routerLink="/login" label="Sign in" link/>
+      </div>
+    </div>
+  </p-card>
+</form>
