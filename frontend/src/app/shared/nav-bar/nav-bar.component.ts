@@ -20,6 +20,11 @@ export class NavBarComponent implements OnInit {
       icon: 'pi pi-warehouse',
       routerLink: '/equipment',
     },
+    {
+      label: 'Reservations',
+      icon: 'pi pi-address-book',
+      routerLink: '/reservation',
+    },
   ];
 
   userMenuItems: MenuItem[] = [

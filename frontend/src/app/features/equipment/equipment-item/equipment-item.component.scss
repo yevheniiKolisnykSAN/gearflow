@@ -1,0 +1,65 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  padding: 16px 24px;
+  height: 100%;
+
+  h1 {
+    margin: 0;
+  }
+
+  .main-data {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .main-section {
+    display: flex;
+
+    .right {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+
+      .reservation {
+        width: 100%;
+        margin-bottom: .5rem;
+
+        .by-me {
+          width: 100%;
+          display: flex;
+          flex-direction: column;
+
+          p {
+            margin: 0;
+          }
+        }
+      }
+
+      ::ng-deep .reserve-btn {
+        .p-button {
+          width: 333px;
+        }
+      }
+
+      ::ng-deep .return-btn {
+        .p-button {
+          width: 333px;
+        }
+        margin-top: .5rem;
+      }
+    }
+
+  }
+}
+
+.small {
+  margin: 0;
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+

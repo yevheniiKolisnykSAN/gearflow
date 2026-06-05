@@ -77,3 +77,15 @@ export interface FilterItem {
   key: string;
   value: string | null;
 }
+
+// RESERVATION
+export interface Reservation {
+  id?: number;
+  startDate: Date;
+  endDate: Date;
+  userId: number;
+  equipmentId: number;
+  status: string;
+  user?: User;
+  equipment?: Equipment;
+}

@@ -1,0 +1,94 @@
+<div class="container" *appCustomLoading="loading()">
+  @if (equipment()) {
+    <h1>{{ equipment()?.name }}</h1>
+
+    <div class="main-data">
+      <p class="small">
+        <i class="pi pi-hashtag" pTooltip="Serial number" tooltipPosition="top"></i>
+        {{ equipment()?.serialNumber }}
+      </p>
+      <p class="small">
+        <i class="pi pi-calendar-clock" pTooltip="Max loan days" tooltipPosition="top"></i>
+        {{ equipment()?.maxLoanDays }}
+      </p>
+      <p class="small">
+        <i class="pi pi-map-marker" pTooltip="Location" tooltipPosition="top"></i>
+        {{ equipment()?.location?.name }}
+      </p>
+      <p class="small">
+        <i class="pi pi-spinner-dotted" pTooltip="Status" tooltipPosition="top"></i>
+        {{ equipment()?.status?.name }}
+      </p>
+      <p class="small">
+        <i class="pi pi-tags" pTooltip="Type" tooltipPosition="top"></i>
+        {{ equipment()?.type?.name }}
+      </p>
+    </div>
+    <p-divider />
+
+    <div class="main-section">
+      <div class="left">
+        <p>{{ equipment()?.specification }}</p>
+      </div>
+
+      <p-divider layout="vertical" />
+
+      <div class="right">
+        @if (reservation()) {
+          <div class="reservation">
+            @if (reservation()?.user?.id === authService.currentUser()?.id) {
+              <div class="by-me">
+                <p>This equipment was reserved by you!</p>
+                <p>From {{ reservation()?.startDate | date : 'dd-MM-yyyy' }}
+                  to {{ reservation()?.endDate | date : 'dd-MM-yyyy' }}.</p>
+                <p>Please, return in time!</p>
+              </div>
+            } @else {
+              <div class="by-user">
+                <p>This equipment was reserved by {{ reservation()?.user?.fullName }}!</p>
+                <p>From {{ reservation()?.startDate | date : 'dd-MM-yyyy' }}
+                  to {{ reservation()?.endDate | date : 'dd-MM-yyyy' }}.</p>
+                <p>You can reserve it after <span
+                  class="underline">{{ reservation()?.endDate | date : 'dd-MM-yyyy' }}</span>!</p>
+              </div>
+            }
+          </div>
+        }
+
+        <p-datepicker
+          [disabled]="equipment()?.statusId !== 1"
+          [(ngModel)]="selectedDates"
+          selectionMode="range"
+          [inline]="true"
+          [showWeek]="true"
+          [minDate]="today"
+          [maxDate]="maxDate()!"
+        />
+
+        @if (equipment()?.statusId === 1) {
+          <p class="days-count">
+            @if (selectedDaysCount > 0) {
+              {{ selectedDaysCount }} day{{ selectedDaysCount === 1 ? '' : 's' }} selected
+            } @else {
+              Select a date range
+            }
+          </p>
+        }
+
+        <p-button [disabled]="equipment()?.statusId !== 1 || !selectedDates[1]" class="reserve-btn" label="Reserve"
+                  severity="success"
+                  size="large" (onClick)="reserve()" />
+
+        @if (reservation()?.user?.id === authService.currentUser()?.id && reservation()) {
+          <p-button
+            class="return-btn"
+            label="Return"
+            severity="info"
+            size="large"
+            (onClick)="return()" />
+        }
+
+      </div>
+    </div>
+  }
+</div>

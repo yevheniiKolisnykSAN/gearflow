@@ -3,7 +3,7 @@ using GearFlow.Domain.Models;
 
 namespace GearFlow.Domain.Interfaces;
 
-public interface IEquipmentRepository
+public interface IEquipmentRepository : IRepository<Equipment>
 {
     Task<IEnumerable<Equipment>> GetEquipmentList(
         string? search = null,

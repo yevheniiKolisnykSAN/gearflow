@@ -34,11 +34,11 @@
                             type="multiselect" [values]="locations()" optionLabel="name" optionValue="id" />
         </th>
         <th>
-          <app-table-filter columnLabel="Equipment status" (onFilterChanged)="filterChanged('statusId', $event)"
+          <app-table-filter columnLabel="Status" (onFilterChanged)="filterChanged('statusId', $event)"
                             type="multiselect" [values]="statuses()" optionLabel="name" optionValue="id" />
         </th>
         <th>
-          <app-table-filter columnLabel="Equipment type" (onFilterChanged)="filterChanged('typeId', $event)"
+          <app-table-filter columnLabel="Type" (onFilterChanged)="filterChanged('typeId', $event)"
                             type="multiselect" [values]="equipmentTypes()" optionLabel="name" optionValue="id" />
         </th>
         <th>
@@ -61,12 +61,13 @@
         <td>{{ equipment.status.name }}</td>
         <td>{{ equipment.type.name }}</td>
         <td class="actions">
-
           <div>
             @if (authService.currentUser()?.isAdmin()) {
               <p-button icon="pi pi-pencil" severity="secondary" size="small"
                         [routerLink]="['/equipment', equipment.id, 'edit']" />
               <p-button icon="pi pi-trash" severity="danger" size="small" (onClick)="onDelete(equipment)" />
+            } @else {
+              <p-button icon="pi pi-external-link" severity="success" size="small" [routerLink]="['/equipment', equipment.id]"/>
             }
           </div>
         </td>

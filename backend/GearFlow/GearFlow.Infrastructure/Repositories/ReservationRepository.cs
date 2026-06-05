@@ -12,14 +12,37 @@ public class ReservationRepository : Repository<Reservation>, IReservationReposi
     {
     }
 
+    public async Task<IEnumerable<Reservation>> GetActiveByUserIdAsync(int id)
+    {
+        return await _context.Reservations
+            .Where(r => r.UserId == id && r.Status == ReservationStatus.Active)
+            .ToListAsync();
+    }
+
     public async Task<IEnumerable<Reservation>> GetByUserIdAsync(int id)
     {
         return await _context.Reservations.Where(r => r.UserId == id).ToListAsync();
     }
 
-    public async Task<IEnumerable<Reservation>> GetByEquipmentIdAsync(int id)
+    public async Task<IEnumerable<Reservation>> GetListByEquipmentIdAsync(int id)
     {
         return await _context.Reservations.Where(r => r.EquipmentId == id).ToListAsync();
+    }
+
+    public async Task<Reservation?> GetByIdWithDetailsAsync(int id)
+    {
+        return await _context.Reservations
+            .Include(r => r.User)
+            .Include(r => r.Equipment)
+            .FirstOrDefaultAsync(r => r.Id == id);
+    }
+
+    public async Task<Reservation?> GetActiveByEquipmentIdAsync(int id)
+    {
+        return await _context.Reservations
+            .Include(r => r.User)
+            .Include(r => r.Equipment)
+            .FirstOrDefaultAsync(r => r.EquipmentId == id && r.Status == ReservationStatus.Active);
     }
 
     public async Task<IEnumerable<Reservation>> GetActiveReservationsAsync()

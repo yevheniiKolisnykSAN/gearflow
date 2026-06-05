@@ -23,14 +23,14 @@ export class EquipmentService extends BaseApiService {
   }
 
   public getById(id: number): Observable<Equipment> {
-    return this.get(`/equipment/${id}`);
+    return this.get<Equipment>(`/equipment/${id}`);
   }
 
   public deleteItem(id: number): Observable<boolean> {
-    return this.delete('/equipment/' + id);
+    return this.delete<boolean>('/equipment/' + id);
   }
 
   public getStatuses(): Observable<EquipmentStatus[]> {
-    return this.get('/EquipmentStatus');
+    return this.get<EquipmentStatus[]>('/EquipmentStatus');
   }
 }

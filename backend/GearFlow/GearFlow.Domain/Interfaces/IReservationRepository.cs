@@ -4,7 +4,11 @@ namespace GearFlow.Domain.Interfaces;
 
 public interface IReservationRepository : IRepository<Reservation>
 {
+    Task<IEnumerable<Reservation>> GetActiveByUserIdAsync(int id);
     Task<IEnumerable<Reservation>> GetByUserIdAsync(int id);
-    Task<IEnumerable<Reservation>> GetByEquipmentIdAsync(int id);
+    Task<IEnumerable<Reservation>> GetListByEquipmentIdAsync(int id);
+    
+    Task<Reservation?> GetByIdWithDetailsAsync(int id);
+    Task<Reservation?> GetActiveByEquipmentIdAsync(int id);
     Task<IEnumerable<Reservation>> GetActiveReservationsAsync();
 }
