@@ -22,6 +22,6 @@ public class GetCurrentUserQueryHandler : IRequestHandler<GetCurrentUserQuery, U
             throw new UnauthorizedAccessException("User not found");
         }
         
-        return new UserDto(user.Id, user.Email, user.FirstName, user.LastName, user.Role.Name);
+        return new UserDto(user.Id, user.FirstName, user.LastName, user.Email, user.RoleId, user.Role.Name);
     }
 }

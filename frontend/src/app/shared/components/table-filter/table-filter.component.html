@@ -1,0 +1,31 @@
+<div class="filter-container">
+  {{ columnLabel() }}
+  <p-button
+    class="filter-btn"
+    severity="secondary"
+    [outlined]="true"
+    [icon]="currentFilter() !== null ? 'pi pi-filter-fill' : 'pi pi-filter'"
+    size="small"
+    iconPos="right"
+    (onClick)="popover.toggle($event)"
+  />
+  <p-popover #popover (onHide)="filterControl.reset()" (onShow)="onShow()">
+    <div class="popover-container">
+      @if (type() === 'multiselect') {
+        <app-multi-select
+          [formControl]="filterControl"
+          [values]="values()"
+          [optionLabel]="optionLabel()"
+          [optionValue]="optionValue()"
+        />
+      } @else {
+        <app-form-input type="text" placeholder="Search..." [formControl]="filterControl" />
+      }
+
+      <div class="popover-actions">
+        <p-button severity="success" icon="pi pi-search" size="small" (onClick)="onSearch(popover)" />
+        <p-button severity="danger" icon="pi pi-trash" size="small" (onClick)="onDelete(popover)" />
+      </div>
+    </div>
+  </p-popover>
+</div>

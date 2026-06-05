@@ -15,10 +15,19 @@ public class GearFlowDbContext : DbContext
             new Role { Id = 1, Name = "Admin" },
             new Role { Id = 2, Name = "Employee" }
         );
+        
+        modelBuilder.Entity<EquipmentStatus>().HasData(
+            new EquipmentStatus { Id = 1, Name = "Available" },
+            new EquipmentStatus { Id = 2, Name = "Reserved" },
+            new EquipmentStatus { Id = 3, Name = "Borrowed" },
+            new EquipmentStatus { Id = 4, Name = "Serviced" },
+            new EquipmentStatus { Id = 5, Name = "Destroyed" }
+        );
     }
 
     public DbSet<User> Users { get; set; }
     public DbSet<Role> Roles { get; set; }
+    public DbSet<Location> Locations { get; set; }
     public DbSet<Equipment> Equipments { get; set; }
     public DbSet<EquipmentType> EquipmentTypes { get; set; }
     public DbSet<EquipmentStatus> EquipmentStatuses { get; set; }

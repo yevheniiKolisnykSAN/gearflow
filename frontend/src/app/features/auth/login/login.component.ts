@@ -1,9 +1,8 @@
-import { Component, inject, signal } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { Component, inject } from '@angular/core';
+import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { Button } from 'primeng/button';
 import { Card } from 'primeng/card';
-import { FormInputComponent } from '../../../shared/form-input/form-input.component';
-import { form } from '@angular/forms/signals';
+import { FormInputComponent } from '../../../shared/components/form-input/form-input.component';
 import { ValidatorType, validatorWithMessage } from '../../../shared/helpers/validators';
 import { Router, RouterLink } from '@angular/router';
 import { markForm } from '../../../shared/helpers/helpers';
@@ -14,53 +13,46 @@ import { switchMap, tap } from 'rxjs';
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
-  imports: [FormsModule, Button, Card, FormInputComponent, RouterLink],
+  imports: [ReactiveFormsModule, Button, Card, FormInputComponent, RouterLink],
 })
 export class LoginComponent {
   private readonly authService = inject(AuthService);
   private readonly router = inject(Router);
 
-  loginModel = signal<LoginData>({
-    email: '',
-    password: '',
-  });
-
-  loginForm = form(this.loginModel, (schemaPath) => {
-    validatorWithMessage(ValidatorType.Required, schemaPath.email);
-    validatorWithMessage(ValidatorType.Email, schemaPath.email);
-
-    validatorWithMessage(ValidatorType.Required, schemaPath.password);
+  loginForm = new FormGroup({
+    email: new FormControl('', [
+      validatorWithMessage(ValidatorType.Required),
+      validatorWithMessage(ValidatorType.Email),
+    ]),
+    password: new FormControl('', [
+      validatorWithMessage(ValidatorType.Required),
+    ]),
   });
 
   public submit() {
-    if (this.loginForm().invalid()) {
+    if (this.loginForm.invalid) {
       markForm(this.loginForm);
       return;
     }
 
+    const { email, password } = this.loginForm.value;
     this.authService
-      .login(this.loginForm().value())
+      .login({ email: email!, password: password! })
       .pipe(
-        switchMap(() => {
-          return this.authService.me().pipe(
+        switchMap(() =>
+          this.authService.me().pipe(
             tap((res) => {
               this.authService.currentUser.set(res);
             }),
-          );
-        }),
+          ),
+        ),
       )
-      .subscribe((res) => {
-        console.log('res', res);
-        this.router.navigate(['/equipment-list']);
+      .subscribe(() => {
+        this.router.navigate(['/equipment']);
       });
   }
 
   public loginWithMicrosoft() {
     this.authService.loginWithMicrosoft();
   }
-}
-
-interface LoginData {
-  email: string;
-  password: string;
 }

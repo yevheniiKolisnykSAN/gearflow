@@ -1,0 +1,24 @@
+<div class="multi-select">
+  @if (label()) {
+    <label [class.error]="showErrors">{{ label() }}</label>
+  }
+
+  <p-multiselect
+    [options]="values()"
+    [ngModel]="value()"
+    [optionLabel]="optionLabel()"
+    [optionValue]="optionValue()"
+    placeholder="Select items"
+    display="chip"
+    [filter]="true"
+    [showClear]="true"
+    [disabled]="disabled()"
+    [invalid]="showErrors"
+    (ngModelChange)="onValueChange($event)"
+    (onPanelHide)="onHide()"
+  />
+
+  @if (showErrors) {
+    <small class="error-text">{{ firstError }}</small>
+  }
+</div>

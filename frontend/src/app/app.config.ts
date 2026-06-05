@@ -1,5 +1,4 @@
 import {
-  APP_INITIALIZER,
   ApplicationConfig,
   inject,
   provideAppInitializer,
@@ -13,7 +12,7 @@ import { provideAnimations } from '@angular/platform-browser/animations';
 import { providePrimeNG } from 'primeng/config';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { errorInterceptor } from './core/interceptors/error.interceptor';
-import { MessageService } from 'primeng/api';
+import { ConfirmationService, MessageService } from 'primeng/api';
 import { authInterceptor } from './core/interceptors/auth-interceptor';
 import { InitService } from './core/services/init.service';
 import { MSAL_INSTANCE, MsalBroadcastService, MsalService } from '@azure/msal-angular';
@@ -28,6 +27,7 @@ export const appConfig: ApplicationConfig = {
     provideAnimations(),
     providePrimeNG({ theme: { preset: Aura, options: { darkModeSelector: false } } }),
     MessageService,
+    ConfirmationService,
     MsalService,
     {
       provide: MSAL_INSTANCE,

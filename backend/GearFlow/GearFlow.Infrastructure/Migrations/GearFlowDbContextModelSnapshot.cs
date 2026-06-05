@@ -60,12 +60,18 @@ namespace GearFlow.Infrastructure.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Location")
-                        .IsRequired()
-                        .HasColumnType("text");
+                    b.Property<bool>("Archived")
+                        .HasColumnType("boolean");
+
+                    b.Property<int>("LocationId")
+                        .HasColumnType("integer");
 
                     b.Property<int>("MaxLoanDays")
                         .HasColumnType("integer");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<string>("SerialNumber")
                         .IsRequired()
@@ -82,6 +88,8 @@ namespace GearFlow.Infrastructure.Migrations
                         .HasColumnType("integer");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("LocationId");
 
                     b.HasIndex("StatusId");
 
@@ -105,6 +113,33 @@ namespace GearFlow.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("EquipmentStatuses");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "Available"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "Reserved"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Name = "Borrowed"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Name = "Serviced"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Name = "Destroyed"
+                        });
                 });
 
             modelBuilder.Entity("GearFlow.Domain.Entities.EquipmentType", b =>
@@ -115,6 +150,9 @@ namespace GearFlow.Infrastructure.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
+                    b.Property<bool>("Archived")
+                        .HasColumnType("boolean");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("text");
@@ -122,6 +160,26 @@ namespace GearFlow.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("EquipmentTypes");
+                });
+
+            modelBuilder.Entity("GearFlow.Domain.Entities.Location", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<bool>("Archived")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Locations");
                 });
 
             modelBuilder.Entity("GearFlow.Domain.Entities.Notification", b =>
@@ -272,6 +330,12 @@ namespace GearFlow.Infrastructure.Migrations
 
             modelBuilder.Entity("GearFlow.Domain.Entities.Equipment", b =>
                 {
+                    b.HasOne("GearFlow.Domain.Entities.Location", "Location")
+                        .WithMany()
+                        .HasForeignKey("LocationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("GearFlow.Domain.Entities.EquipmentStatus", "Status")
                         .WithMany()
                         .HasForeignKey("StatusId")
@@ -283,6 +347,8 @@ namespace GearFlow.Infrastructure.Migrations
                         .HasForeignKey("TypeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Location");
 
                     b.Navigation("Status");
 

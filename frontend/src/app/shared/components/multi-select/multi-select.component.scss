@@ -1,0 +1,29 @@
+@use "../../styles/variables" as *;
+
+:host {
+  display: block;
+  width: 100%;
+}
+
+.multi-select {
+  display: flex;
+  flex-direction: column;
+
+  label {
+    margin-bottom: 4px;
+    font-size: 14px;
+
+    &.error {
+      color: $error;
+    }
+  }
+
+  p-multiselect {
+    width: 100%;
+  }
+
+  .error-text {
+    color: $error;
+    font-size: 12px;
+  }
+}

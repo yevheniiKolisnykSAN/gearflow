@@ -1,0 +1,68 @@
+<div class="form-input">
+  @if(label()) {
+    <label [class.error]="showErrors" [for]="id">{{ label() }}</label>
+  }
+
+  @switch (type()) {
+    @case ('password') {
+      <div class="input-wrapper">
+        <input
+          pInputText
+          [id]="id"
+          [type]="inputType()"
+          [placeholder]="placeholder()"
+          [value]="value()"
+          [disabled]="disabled()"
+          (input)="onInput($event)"
+          (blur)="onBlur()"
+          [class.p-invalid]="showErrors"
+        />
+        <button type="button" class="toggle-btn" (click)="toggleVisibility()">
+          <i [class]="showPassword() ? 'pi pi-eye-slash' : 'pi pi-eye'"></i>
+        </button>
+      </div>
+    }
+    @case ('textarea') {
+      <textarea
+        class="resize-none"
+        pTextarea
+        [id]="id"
+        [placeholder]="placeholder()"
+        [value]="value()"
+        [disabled]="disabled()"
+        (input)="onInput($event)"
+        (blur)="onBlur()"
+        rows="4"
+        [class.p-invalid]="showErrors"
+      ></textarea>
+    }
+    @case ('number') {
+      <p-inputnumber
+        [inputId]="id"
+        [placeholder]="placeholder()"
+        [ngModel]="value()"
+        [disabled]="disabled()"
+        [invalid]="showErrors"
+        (ngModelChange)="onNumberChange($event)"
+        (onBlur)="onBlur()"
+      />
+    }
+    @default {
+      <input
+        pInputText
+        [id]="id"
+        [type]="type()"
+        [placeholder]="placeholder()"
+        [value]="value()"
+        [disabled]="disabled()"
+        (input)="onInput($event)"
+        (blur)="onBlur()"
+        [class.p-invalid]="showErrors"
+      />
+    }
+  }
+
+  @if (showErrors) {
+    <small class="error-text">{{ firstError }}</small>
+  }
+</div>

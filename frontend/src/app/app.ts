@@ -1,15 +1,16 @@
-import { Component, signal } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { LoginComponent } from './features/auth/login/login.component';
-import { RegisterComponent } from './features/auth/register/register.component';
 import { Toast } from 'primeng/toast';
+import { AuthService } from './core/services/auth.service';
+import { NavBarComponent } from './shared/nav-bar/nav-bar.component';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, LoginComponent, RegisterComponent, Toast],
+  imports: [RouterOutlet, Toast, NavBarComponent, ConfirmDialogModule],
   templateUrl: './app.html',
   styleUrl: './app.scss',
 })
 export class App {
-  protected readonly title = signal('frontend');
+  protected readonly authService = inject(AuthService);
 }

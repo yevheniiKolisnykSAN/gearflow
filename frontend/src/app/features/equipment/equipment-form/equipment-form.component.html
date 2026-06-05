@@ -1,0 +1,16 @@
+<form [formGroup]="equipmentForm" (ngSubmit)="submit()" class="equipment-form">
+  <p-card *appCustomLoading="loading()">
+    <p class="subtitle">Add equipment</p>
+
+    <div class="form-container">
+      <app-form-input formControlName="name" type="text" label="Name" placeholder="Name..."></app-form-input>
+      <app-form-input formControlName="specification" type="textarea" label="Specification" placeholder="Specification..."></app-form-input>
+      <app-form-input formControlName="maxLoanDays" type="number" label="Max loan days"></app-form-input>
+      <app-dropdown formControlName="statusId" label="Status" optionValue="id" optionLabel="name" [values]="statuses()"/>
+      <app-dropdown formControlName="typeId" label="Type" optionValue="id" optionLabel="name" [values]="equipmentTypes()"/>
+      <app-dropdown formControlName="locationId" label="Location" optionValue="id" optionLabel="name" [values]="locations()"/>
+
+      <p-button class="submit-btn" label="Save" (onClick)="submit()"/>
+    </div>
+  </p-card>
+</form>

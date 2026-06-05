@@ -1,0 +1,22 @@
+.actions {
+  width: calc(64px + .5rem);
+
+  div {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: .5rem;
+  }
+}
+
+.create-container {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.popover-container {
+  display: flex;
+  align-items: flex-end;
+  flex-direction: column;
+  gap: 0.5rem;
+}

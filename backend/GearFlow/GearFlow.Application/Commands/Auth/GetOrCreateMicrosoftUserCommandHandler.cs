@@ -29,10 +29,10 @@ public class GetOrCreateMicrosoftUserCommandHandler : IRequestHandler<GetOrCreat
             };
             await _userRepository.AddAsync(newUser);
             var createdUser = await _userRepository.GetByIdWithRoleAsync(newUser.Id);
-            return new UserDto(createdUser!.Id, createdUser.FirstName, createdUser.LastName, createdUser.Email, createdUser.Role.Name);
+            return new UserDto(createdUser!.Id, createdUser.FirstName, createdUser.LastName, createdUser.Email, createdUser.RoleId, createdUser.Role.Name);
         }
 
         var userWithRole = await _userRepository.GetByIdWithRoleAsync(user.Id);
-        return new UserDto(userWithRole!.Id, userWithRole.FirstName, userWithRole.LastName, userWithRole.Email, userWithRole.Role.Name);
+        return new UserDto(userWithRole!.Id, userWithRole.FirstName, userWithRole.LastName, userWithRole.Email, userWithRole.RoleId, userWithRole.Role.Name);
     }
 }

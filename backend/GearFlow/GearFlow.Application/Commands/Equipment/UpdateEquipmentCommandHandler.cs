@@ -18,8 +18,8 @@ public class UpdateEquipmentCommandHandler : IRequestHandler<UpdateEquipmentComm
         var equipment = await _equipmentRepository.GetByIdAsync(query.Id);
         if (equipment == null) return 0;
         
-        equipment.SerialNumber = query.SerialNumber;
-        equipment.Location = query.Location;
+        equipment.Name = query.Name;
+        equipment.LocationId = query.LocationId;
         equipment.Specification = query.Specification;
         equipment.MaxLoanDays = query.MaxLoanDays;
         equipment.StatusId = query.StatusId;

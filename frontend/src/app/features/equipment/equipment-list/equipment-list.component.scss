@@ -1,0 +1,33 @@
+.actions {
+  width: calc(64px + .5rem);
+
+  div {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: .5rem;
+  }
+}
+
+.create-container {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.clear-btn {
+  cursor: pointer;
+
+  &:hover {
+    color: var(--p-text-color);
+  }
+}
+
+
+::ng-deep p-table {
+  .p-datatable-header {
+    .global-search {
+      display: flex;
+      justify-content: flex-end;
+    }
+  }
+}

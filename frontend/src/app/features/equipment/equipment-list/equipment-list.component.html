@@ -1,2 +1,76 @@
-<p>equipment-list works!</p>
-<button (click)="logout()">logout</button>
+<div class="component-container">
+  <h1 class="title">Equipments</h1>
+
+  <p-table [value]="equipments()" size="small" [loading]="loading()">
+    <ng-template #caption>
+      <div class="global-search">
+        <p-iconfield>
+          <p-inputicon class="pi pi-search" />
+          <input #input type="text" pInputText placeholder="Search" [formControl]="searchControl" />
+          @if (input.value) {
+            <p-inputicon class="pi pi-times clear-btn" (click)="searchControl.reset()" />
+          }
+        </p-iconfield>
+      </div>
+    </ng-template>
+    <ng-template #header>
+      <tr>
+        <th>
+          <app-table-filter columnLabel="Name" (onFilterChanged)="filterChanged('name', $event)" />
+        </th>
+        <th>
+          <app-table-filter columnLabel="Serial number" (onFilterChanged)="filterChanged('serialNumber', $event)" />
+        </th>
+        <th>
+          <app-table-filter columnLabel="Specification"
+                            (onFilterChanged)="filterChanged('specification', $event)" />
+        </th>
+        <th>
+          <app-table-filter columnLabel="Max loan days" (onFilterChanged)="filterChanged('MaxLoanDays', $event)"
+                            type="multiselect" [values]="MaxLoanDaysValues" optionLabel="name" optionValue="value" />
+        </th>
+        <th>
+          <app-table-filter columnLabel="Location" (onFilterChanged)="filterChanged('locationId', $event)"
+                            type="multiselect" [values]="locations()" optionLabel="name" optionValue="id" />
+        </th>
+        <th>
+          <app-table-filter columnLabel="Equipment status" (onFilterChanged)="filterChanged('statusId', $event)"
+                            type="multiselect" [values]="statuses()" optionLabel="name" optionValue="id" />
+        </th>
+        <th>
+          <app-table-filter columnLabel="Equipment type" (onFilterChanged)="filterChanged('typeId', $event)"
+                            type="multiselect" [values]="equipmentTypes()" optionLabel="name" optionValue="id" />
+        </th>
+        <th>
+          @if (authService.currentUser()?.isAdmin()) {
+            <div class="create-container">
+              <p-button label="Create" icon="pi pi-plus" size="small" iconPos="right"
+                        routerLink="/equipment/create" />
+            </div>
+          }
+        </th>
+      </tr>
+    </ng-template>
+    <ng-template #body let-equipment>
+      <tr>
+        <td>{{ equipment.name }}</td>
+        <td>{{ equipment.serialNumber }}</td>
+        <td>{{ equipment.specification }}</td>
+        <td>{{ equipment.maxLoanDays }}</td>
+        <td>{{ equipment.location.name }}</td>
+        <td>{{ equipment.status.name }}</td>
+        <td>{{ equipment.type.name }}</td>
+        <td class="actions">
+
+          <div>
+            @if (authService.currentUser()?.isAdmin()) {
+              <p-button icon="pi pi-pencil" severity="secondary" size="small"
+                        [routerLink]="['/equipment', equipment.id, 'edit']" />
+              <p-button icon="pi pi-trash" severity="danger" size="small" (onClick)="onDelete(equipment)" />
+            }
+          </div>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>

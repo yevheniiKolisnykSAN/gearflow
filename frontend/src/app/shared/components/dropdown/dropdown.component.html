@@ -1,0 +1,20 @@
+<div class="dropdown">
+  @if (label()) {
+    <label [class.error]="showErrors">{{ label() }}</label>
+  }
+  <p-select
+    [options]="values()"
+    [ngModel]="value()"
+    [optionLabel]="optionLabel()"
+    [optionValue]="optionValue()"
+    placeholder="Select item"
+    [disabled]="disabled()"
+    [class.p-invalid]="showErrors"
+    (ngModelChange)="onValueChange($event)"
+    (onHide)="onBlur()"
+  />
+
+  @if (showErrors) {
+    <small class="error-text">{{ firstError }}</small>
+  }
+</div>

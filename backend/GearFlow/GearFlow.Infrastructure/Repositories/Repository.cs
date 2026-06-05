@@ -1,3 +1,4 @@
+using System.Linq.Expressions;
 using GearFlow.Domain.Entities;
 using GearFlow.Domain.Interfaces;
 using GearFlow.Infrastructure.Persistence;
@@ -20,9 +21,15 @@ public class Repository<T> : IRepository<T> where T : BaseEntity
         return await _context.Set<T>().FindAsync(id);
     }
 
-    public async Task<IEnumerable<T>> GetAllAsync()
+    public async Task<IEnumerable<T>> GetAllAsync(Expression<Func<T, bool>>? filter = null)
     {
-        return await _context.Set<T>().ToListAsync();
+        var query =  _context.Set<T>().AsQueryable();
+        if (filter != null)
+        {
+            query = query.Where(filter);
+        }
+
+        return await query.ToListAsync();
     }
 
     public async Task AddAsync(T entity)

@@ -1,2 +1,11 @@
+<div class="container">
+  @if (authService.currentUser()) {
+    <app-nav-bar />
+  }
+  <div class="content-container">
+    <router-outlet />
+  </div>
+</div>
+
 <p-toast />
-<router-outlet/>
+<p-confirmdialog />

@@ -1,0 +1,10 @@
+.container {
+  width: 100%;
+  height: 100dvh;
+  flex-direction: column;
+
+  .content-container {
+    width: 100%;
+    height: calc(100dvh - 55px);
+  }
+}

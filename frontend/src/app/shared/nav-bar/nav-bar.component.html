@@ -1,0 +1,13 @@
+<p-menubar [model]="menubarItems">
+  <ng-template #end>
+    <p-button
+      [label]="authService.currentUser()?.fullName"
+      icon="pi pi-user"
+      iconPos="left"
+      severity="secondary"
+      [text]="true"
+      (onClick)="userMenu.toggle($event)"
+    />
+    <p-menu #userMenu [model]="userMenuItems" [popup]="true" />
+  </ng-template>
+</p-menubar>

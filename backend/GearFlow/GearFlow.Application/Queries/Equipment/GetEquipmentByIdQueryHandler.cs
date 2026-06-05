@@ -5,9 +5,9 @@ using MediatR;
  public class GetEquipmentByIdQueryHandler : IRequestHandler<GetEquipmentByIdQuery, Equipment?>
 
  {
-     private readonly IRepository<Equipment> _equipmentRepository;
+     private readonly IEquipmentRepository _equipmentRepository;
  
-     public GetEquipmentByIdQueryHandler(IRepository<Equipment> equipmentRepository)
+     public GetEquipmentByIdQueryHandler(IEquipmentRepository equipmentRepository)
      {
          _equipmentRepository = equipmentRepository;
      }

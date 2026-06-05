@@ -1,10 +1,10 @@
 import { inject, Injectable, signal } from '@angular/core';
 import { BaseApiService } from './base-api.service';
-import { Observable, tap } from 'rxjs';
-import { UserModel } from '../../shared/models/user.model';
+import { map, Observable, tap } from 'rxjs';
 import { Router } from '@angular/router';
 import { loginRequest } from '../auth-config';
 import { MsalService } from '@azure/msal-angular';
+import { User } from '../../shared/models/common.models';
 
 @Injectable({
   providedIn: 'root',
@@ -13,7 +13,7 @@ export class AuthService extends BaseApiService {
   private readonly router = inject(Router);
   private readonly msalService = inject(MsalService);
 
-  public currentUser = signal<UserModel | null>(null);
+  public currentUser = signal<User | null>(null);
 
   public register(data: RegisterRequest): Observable<boolean> {
     return this.post<boolean>('/auth/register', data);
@@ -31,8 +31,8 @@ export class AuthService extends BaseApiService {
     return this.post<void>('/auth/microsoft', { token: idToken });
   }
 
-  public me(): Observable<UserModel> {
-    return this.get<UserModel>('/auth/me');
+  public me(): Observable<User> {
+    return this.get<User>('/auth/me').pipe(map((res) => new User(res)));
   }
 
   public logout(): Observable<void> {

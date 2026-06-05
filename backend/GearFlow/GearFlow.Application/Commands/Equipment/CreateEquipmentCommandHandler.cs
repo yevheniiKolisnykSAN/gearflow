@@ -17,11 +17,12 @@ public class CreateEquipmentCommandHandler : IRequestHandler<CreateEquipmentComm
         var equipment = new Domain.Entities.Equipment
         {
             SerialNumber = query.SerialNumber,
-            Location = query.Location,
+            Name = query.Name,
             Specification = query.Specification,
             MaxLoanDays = query.MaxLoanDays,
             StatusId = query.StatusId,
-            TypeId = query.TypeId
+            TypeId = query.TypeId,
+            LocationId = query.LocationId
         };
         await _equipmentRepository.AddAsync(equipment);
         return equipment.Id;
