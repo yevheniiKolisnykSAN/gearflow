@@ -126,8 +126,6 @@ app.UseCors("AllowFrontend");
 app.UseMiddleware<ExceptionHandlingMiddleware>();
 app.UseAuthentication();
 app.UseAuthorization();
-app.UseHttpsRedirection();
-app.UseAuthorization();
 app.MapControllers();
 
 app.MapHealthChecks("/health", new HealthCheckOptions
