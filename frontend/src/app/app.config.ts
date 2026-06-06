@@ -18,6 +18,7 @@ import { InitService } from './core/services/init.service';
 import { MSAL_INSTANCE, MsalBroadcastService, MsalService } from '@azure/msal-angular';
 import { PublicClientApplication } from '@azure/msal-browser';
 import { msalConfig } from './core/auth-config';
+import { DialogService } from 'primeng/dynamicdialog';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -29,6 +30,7 @@ export const appConfig: ApplicationConfig = {
     MessageService,
     ConfirmationService,
     MsalService,
+    DialogService,
     {
       provide: MSAL_INSTANCE,
       useFactory: () => new PublicClientApplication(msalConfig)

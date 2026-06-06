@@ -11,6 +11,8 @@ import { ValidatorType, validatorWithMessage } from '../../shared/helpers/valida
 import { map } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { EquipmentTypeService } from '../../core/services/equipment-type.service';
+import { CsvExportService } from '../../core/services/csv-export.service';
+import { PdfExportService } from '../../core/services/pdf-export.service';
 
 @Component({
   selector: 'app-equipment-type',
@@ -24,6 +26,8 @@ export class EquipmentTypeComponent implements OnInit {
   private readonly equipmentTypeService = inject(EquipmentTypeService);
   private readonly confirmService = inject(ConfirmService);
   private toastService = inject(ToastService);
+  private readonly csvExport = inject(CsvExportService);
+  private readonly pdfExport = inject(PdfExportService);
 
   public equipmentTypes = signal<EquipmentType[]>([]);
   public loading = signal(false);
@@ -31,6 +35,14 @@ export class EquipmentTypeComponent implements OnInit {
 
   ngOnInit() {
     this.loadData();
+  }
+
+  exportCsv(): void {
+    this.csvExport.export({ fileName: 'equipment-types.csv', columns: ['Name'], rows: this.equipmentTypes().map((t) => [t.name]) });
+  }
+
+  exportPdf(): void {
+    this.pdfExport.export({ title: 'Equipment Types', fileName: 'equipment-types.pdf', columns: ['Name'], rows: this.equipmentTypes().map((t) => [t.name]) });
   }
 
   public loadData(): void {

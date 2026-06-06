@@ -1,7 +1,7 @@
 .filter-container, .popover-container, .popover-actions {
   display: flex;
   align-items: center;
-  gap: .5rem;
+  white-space: nowrap;
 }
 
 ::ng-deep.filter-btn {

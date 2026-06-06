@@ -56,39 +56,119 @@
         }
 
         <p-datepicker
-          [disabled]="equipment()?.statusId !== 1"
           [(ngModel)]="selectedDates"
           selectionMode="range"
           [inline]="true"
           [showWeek]="true"
           [minDate]="today"
-          [maxDate]="maxDate()!"
+          [maxDate]="dynamicMaxDate()"
+          [disabledDates]="disabledDates()"
+          (onSelect)="onDateSelect()"
         />
 
-        @if (equipment()?.statusId === 1) {
-          <p class="days-count">
-            @if (selectedDaysCount > 0) {
-              {{ selectedDaysCount }} day{{ selectedDaysCount === 1 ? '' : 's' }} selected
-            } @else {
-              Select a date range
-            }
-          </p>
-        }
+        <p class="days-count">
+          @if (selectedDaysCount > 0) {
+            {{ selectedDaysCount }} day{{ selectedDaysCount === 1 ? '' : 's' }} selected
+          } @else {
+            Select a date range
+          }
+        </p>
 
-        <p-button [disabled]="equipment()?.statusId !== 1 || !selectedDates[1]" class="reserve-btn" label="Reserve"
+        <p-button [disabled]="!selectedDates[1]" class="reserve-btn" label="Reserve"
                   severity="success"
                   size="large" (onClick)="reserve()" />
 
-        @if (reservation()?.user?.id === authService.currentUser()?.id && reservation()) {
-          <p-button
-            class="return-btn"
-            label="Return"
-            severity="info"
-            size="large"
-            (onClick)="return()" />
-        }
+<!--        @if (reservation()?.user?.id === authService.currentUser()?.id && reservation()) {-->
+<!--          <p-button-->
+<!--            class="return-btn"-->
+<!--            label="Return"-->
+<!--            severity="info"-->
+<!--            size="large"-->
+<!--            (onClick)="complete(reservation())" />-->
+<!--        }-->
 
       </div>
     </div>
+
+    <p-divider />
+    <p-accordion value="-1">
+      <p-accordion-panel [value]="-1">
+        <p-accordion-header>Active reservations</p-accordion-header>
+        <p-accordion-content>
+          <p-table [value]="activeReservations()" size="small" [loading]="loading()">
+            <ng-template #header>
+              <tr>
+                <th>From</th>
+                <th>TO</th>
+                <th>Reserved By</th>
+                <th></th>
+              </tr>
+            </ng-template>
+            <ng-template #body let-reservation>
+              <tr>
+                <td>{{ reservation.startDate | date : 'dd-MM-yyyy' }}</td>
+                <td>{{ reservation.endDate | date : 'dd-MM-yyyy' }}</td>
+                <td>{{ reservation.user.fullName }}</td>
+                <td>
+                  @if (reservation.user.id === authService.currentUser()?.id) {
+                    @if (reservation.startDate | isReservationStarted) {
+                      <p-button
+                        class="reserve-btn"
+                        label="Return"
+                        severity="info"
+                        size="large"
+                        (onClick)="complete(reservation)" />
+                    } @else {
+                      <p-button
+                        class="reserve-btn"
+                        label="Cancel"
+                        severity="primary"
+                        size="large"
+                        (onClick)="cancel(reservation)" />
+                    }
+                  }
+                </td>
+              </tr>
+            </ng-template>
+            <ng-template #emptymessage>
+              <tr>
+                <td class="empty-row" colspan="8">No data.</td>
+              </tr>
+            </ng-template>
+          </p-table>
+        </p-accordion-content>
+      </p-accordion-panel>
+    </p-accordion>
+
+    <p-divider />
+
+    <p-accordion value="-1">
+      <p-accordion-panel [value]="-1">
+        <p-accordion-header>History</p-accordion-header>
+        <p-accordion-content>
+          <p-table [value]="equipment()?.defects ?? []" size="small" [loading]="loading()">
+            <ng-template #header>
+              <tr>
+                <th>Defect comment</th>
+                <th>When</th>
+                <th>Made by</th>
+              </tr>
+            </ng-template>
+            <ng-template #body let-defect>
+              <tr>
+                <td>{{ defect.comment }}</td>
+                <td>{{ defect.reservation.completedAt | date : 'dd-MM-yyyy' }}</td>
+                <td>{{ defect.user.firstName + ' ' + defect.user.lastName }}</td>
+              </tr>
+            </ng-template>
+            <ng-template #emptymessage>
+              <tr>
+                <td class="empty-row" colspan="8">No data.</td>
+              </tr>
+            </ng-template>
+          </p-table>
+        </p-accordion-content>
+      </p-accordion-panel>
+    </p-accordion>
   }
 </div>

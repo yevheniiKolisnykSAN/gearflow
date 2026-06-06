@@ -27,5 +27,21 @@
         <p-button routerLink="/register" label="Sign up" link/>
       </div>
     </div>
+  <p-button severity="secondary" class="tip-btn" label="Users list" icon="pi pi-info-circle" iconPos="right" (onClick)="popover.toggle($event)" />
+    <p-popover #popover>
+      <div class="user-list-container">
+        All passwords — 12345678
+        <ul>
+          @for (user of usersList; track user) {
+            <li>
+              <p>{{user}}</p>
+              <p-button icon="pi pi-copy" [text]="true" (click)="copy(user)"/>
+            </li>
+          }
+        </ul>
+      </div>
+    </p-popover>
   </p-card>
+
+
 </form>

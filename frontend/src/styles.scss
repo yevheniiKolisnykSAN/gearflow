@@ -21,3 +21,23 @@ body {
 .underline {
   text-decoration: underline;
 }
+
+
+.table-caption {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.export-buttons {
+  display: flex;
+  gap: 0.5rem;
+  margin-left: auto;
+}
+
+.empty-row {
+  text-align: center !important;
+  font-size: 32px;
+  padding: 2rem 0 !important;
+}

@@ -43,8 +43,6 @@ export class FormInputComponent implements ControlValueAccessor, OnInit {
   private ngControl: NgControl | null = null;
 
   ngOnInit(): void {
-    // Lazy injection breaks the circular dep that arises when providing NG_VALUE_ACCESSOR
-    // and injecting NgControl at the same time
     this.ngControl = this.injector.get(NgControl, null, { self: true, optional: true });
   }
 

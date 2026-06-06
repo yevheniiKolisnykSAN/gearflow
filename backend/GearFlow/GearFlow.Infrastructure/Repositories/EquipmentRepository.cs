@@ -29,6 +29,8 @@ public class EquipmentRepository : Repository<Equipment>, IEquipmentRepository
             .Include(e => e.Location)
             .Include(e => e.Type)
             .Include(e => e.Status)
+            .Include(e => e.Defects).ThenInclude(d => d.User)
+            .Include(e => e.Defects).ThenInclude(d => d.Reservation)
             .Where(e => !e.Archived);
 
         if (!string.IsNullOrEmpty(search))
@@ -71,6 +73,8 @@ public class EquipmentRepository : Repository<Equipment>, IEquipmentRepository
             .Include(e => e.Location)
             .Include(e => e.Type)
             .Include(e => e.Status)
+            .Include(e => e.Defects).ThenInclude(d => d.User)
+            .Include(e => e.Defects).ThenInclude(d => d.Reservation)
             .FirstOrDefaultAsync(e => e.Id == id && !e.Archived);
     }
 }

@@ -1,1 +1,128 @@
-<p>reservation-list works!</p>
+<div class="component-container">
+  <h1 class="title">{{ authService.currentUser()?.isAdmin() ? 'All reservations' : 'Reservations' }}</h1>
+
+  <p-table [value]="reservations()" size="small" [loading]="loading()">
+    <ng-template #caption>
+      <div class="export-buttons">
+        <p-button icon="pi pi-file-export" label="CSV" size="small" severity="secondary" (onClick)="exportReservationsCsv()" />
+        <p-button icon="pi pi-file-pdf" label="PDF" size="small" severity="secondary" (onClick)="exportReservationsPdf()" />
+      </div>
+    </ng-template>
+    <ng-template #header>
+      <tr>
+        <th>Equipment name</th>
+        <th>From</th>
+        <th>To</th>
+        <th></th>
+      </tr>
+    </ng-template>
+    <ng-template #body let-reservation>
+      <tr>
+        <td>{{ reservation.equipment.name }}</td>
+        <td>{{ reservation?.startDate | date : 'dd-MM-yyyy' }}</td>
+        <td>{{ reservation?.endDate | date : 'dd-MM-yyyy' }}</td>
+        <td class="actions">
+          @if (!authService.currentUser()?.isAdmin()) {
+          @if (reservation.startDate | isReservationStarted) {
+            <p-button label="Complete" severity="primary" size="small" (onClick)="complete(reservation)" />
+          } @else {
+            <p-button label="Cancel" severity="primary" size="small" (onClick)="cancel(reservation)" />
+          }
+          }
+        </td>
+      </tr>
+    </ng-template>
+    <ng-template #emptymessage>
+      <tr>
+        <td class="empty-row" colspan="8">No data.</td>
+      </tr>
+    </ng-template>
+  </p-table>
+
+  <p-divider />
+
+  @if (pending().length) {
+    <p-accordion value="0">
+      <p-accordion-panel value="0">
+        <p-accordion-header>Pending reservations</p-accordion-header>
+        <p-accordion-content>
+          <p-table [value]="pending()" size="small" [loading]="loading()">
+            <ng-template #header>
+              <tr>
+                <th>Equipment name</th>
+                <th>From</th>
+                <th>To</th>
+                <th>Sent to check at</th>
+                <th>Defects</th>
+              </tr>
+            </ng-template>
+            <ng-template #body let-pending>
+              <tr>
+                <td>{{ pending.equipment.name }}</td>
+                <td>{{ pending?.startDate | date : 'dd-MM-yyyy' }}</td>
+                <td>{{ pending?.endDate | date : 'dd-MM-yyyy' }}</td>
+                <td>{{ pending?.pendingAt | date : 'dd-MM-yyyy' }}</td>
+                <td>{{ pending.defect ? pending.defect.comment : 'No Defect' }}</td>
+              </tr>
+            </ng-template>
+            <ng-template #emptymessage>
+              <tr>
+                <td class="empty-row" colspan="8">No data.</td>
+              </tr>
+            </ng-template>
+          </p-table>
+        </p-accordion-content>
+      </p-accordion-panel>
+    </p-accordion>
+
+    <p-divider />
+  }
+
+  <p-accordion value="-1">
+    <p-accordion-panel [value]="-1">
+      <p-accordion-header>History</p-accordion-header>
+      <p-accordion-content>
+        <p-table [value]="history()" size="small" [loading]="loading()">
+          <ng-template #caption>
+            <div class="export-buttons">
+              <p-button icon="pi pi-file-export" label="CSV" size="small" severity="secondary" (onClick)="exportHistoryCsv()" />
+              <p-button icon="pi pi-file-pdf" label="PDF" size="small" severity="secondary" (onClick)="exportHistoryPdf()" />
+            </div>
+          </ng-template>
+          <ng-template #header>
+            <tr>
+              <th>Equipment name</th>
+              <th>From</th>
+              <th>To</th>
+              <th>Completed at</th>
+              <th>Defects</th>
+            </tr>
+          </ng-template>
+          <ng-template #body let-history>
+            <tr>
+              <td>
+                <p-button
+                  [label]="history.equipment.name"
+                  [text]="true"
+                  icon="pi pi-external-link"
+                  iconPos="right"
+                  size="small"
+                  [routerLink]="['/equipment', history.equipment.id]"
+                />
+              </td>
+              <td>{{ history?.startDate | date : 'dd-MM-yyyy' }}</td>
+              <td>{{ history?.endDate | date : 'dd-MM-yyyy' }}</td>
+              <td>{{ history?.completedAt | date : 'dd-MM-yyyy' }}</td>
+              <td>{{ history.defect ? history.defect.comment : 'No Defect' }}</td>
+            </tr>
+          </ng-template>
+          <ng-template #emptymessage>
+            <tr>
+              <td class="empty-row" colspan="8">No data.</td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </p-accordion-content>
+    </p-accordion-panel>
+  </p-accordion>
+</div>

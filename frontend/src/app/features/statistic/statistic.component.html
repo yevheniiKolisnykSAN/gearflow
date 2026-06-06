@@ -1,0 +1,83 @@
+<div class="component-container">
+  <div class="page-header">
+    <h1 class="title">Statistics</h1>
+    <p-button
+      label="Export PDF"
+      icon="pi pi-file-pdf"
+      severity="secondary"
+      size="small"
+      [disabled]="!statistics()"
+      (onClick)="exportPdf()" />
+  </div>
+
+  <div class="stat-cards">
+    <div class="stat-card indigo">
+      <div class="stat-icon"><i class="pi pi-calendar"></i></div>
+      <div class="stat-info">
+        <span class="stat-label">Total Reservations</span>
+        <span class="stat-value">{{ statistics()?.totalReservations ?? '—' }}</span>
+      </div>
+    </div>
+    <div class="stat-card green">
+      <div class="stat-icon"><i class="pi pi-check-circle"></i></div>
+      <div class="stat-info">
+        <span class="stat-label">Active Reservations</span>
+        <span class="stat-value">{{ statistics()?.activeReservations ?? '—' }}</span>
+      </div>
+    </div>
+    <div class="stat-card amber">
+      <div class="stat-icon"><i class="pi pi-clock"></i></div>
+      <div class="stat-info">
+        <span class="stat-label">Avg Duration (days)</span>
+        <span class="stat-value">{{ statistics()?.avgDurationDays | number:'1.0-1' }}</span>
+      </div>
+    </div>
+    <div class="stat-card red">
+      <div class="stat-icon"><i class="pi pi-exclamation-triangle"></i></div>
+      <div class="stat-info">
+        <span class="stat-label">Total Defects</span>
+        <span class="stat-value">{{ statistics()?.totalDefects ?? '—' }}</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="charts-section">
+    <div class="chart-card">
+      <h3><i class="pi pi-chart-bar"></i> Reservations by Month</h3>
+      @if (barChartData()) {
+        <p-chart type="bar" [data]="barChartData()" [options]="barChartOptions" height="280px" />
+      } @else {
+        <div class="chart-placeholder"><i class="pi pi-spin pi-spinner"></i></div>
+      }
+    </div>
+
+    <div class="chart-card">
+      <h3><i class="pi pi-chart-pie"></i> By Equipment Type</h3>
+      @if (doughnutChartData()) {
+        <p-chart type="doughnut" [data]="doughnutChartData()" [options]="doughnutChartOptions" height="280px" />
+      } @else {
+        <div class="chart-placeholder"><i class="pi pi-spin pi-spinner"></i></div>
+      }
+    </div>
+  </div>
+
+  @if (statistics()?.topEquipment?.length) {
+    <div class="bottom-section">
+      <div class="top-equipment-card">
+        <h3><i class="pi pi-star"></i> Most Reserved Equipment</h3>
+        <div class="top-list">
+          @for (item of statistics()!.topEquipment; track item.name; let i = $index) {
+            <div class="top-item">
+              <span class="rank" [class]="'rank-' + (i + 1)">#{{ i + 1 }}</span>
+              <span class="name">{{ item.name }}</span>
+              <div class="bar-wrap">
+                <div class="bar-fill" [style.width.%]="getBarWidth(item.count)"></div>
+              </div>
+              <span class="count">{{ item.count }}</span>
+            </div>
+          }
+        </div>
+      </div>
+    </div>
+  }
+</div>

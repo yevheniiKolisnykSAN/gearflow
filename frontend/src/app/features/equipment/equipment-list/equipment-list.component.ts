@@ -17,6 +17,8 @@ import { InputText } from 'primeng/inputtext';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
+import { CsvExportService } from '../../../core/services/csv-export.service';
+import { PdfExportService } from '../../../core/services/pdf-export.service';
 
 @Component({
   selector: 'app-equipment-list',
@@ -31,6 +33,8 @@ export class EquipmentListComponent implements OnInit {
   private readonly toastService = inject(ToastService);
   private readonly locationService = inject(LocationService);
   private readonly equipmentTypeService = inject(EquipmentTypeService);
+  private readonly csvExport = inject(CsvExportService);
+  private readonly pdfExport = inject(PdfExportService);
 
   public equipments = signal<Equipment[]>([]);
   public loading = signal(false);
@@ -99,6 +103,23 @@ export class EquipmentListComponent implements OnInit {
       }
       return updated;
     });
+  }
+
+  private readonly exportColumns = ['Name', 'Serial Number', 'Specification', 'Max Loan Days', 'Location', 'Status', 'Type'];
+
+  private getExportRows() {
+    return this.equipments().map((e) => [
+      e.name, e.serialNumber, e.specification, e.maxLoanDays,
+      e.location?.name, e.status?.name, e.type?.name,
+    ]);
+  }
+
+  exportCsv(): void {
+    this.csvExport.export({ fileName: 'equipment.csv', columns: this.exportColumns, rows: this.getExportRows() });
+  }
+
+  exportPdf(): void {
+    this.pdfExport.export({ title: 'Equipment List', fileName: 'equipment.pdf', columns: this.exportColumns, rows: this.getExportRows() });
   }
 
   public onDelete(equipment: Equipment) {

@@ -1,0 +1,14 @@
+<div class="container">
+  <p class="text">Are you sure you want to complete reservation
+    for {{ dynamicDialogConfig.data.reservation.equipment.name }}?</p>
+
+  <p-divider />
+
+  <app-form-input [formControl]="control" type="textarea" label="Any defects?"
+                  placeholder="(Optional)"></app-form-input>
+
+  <div class="btn-group">
+    <p-button label="Cancel" severity="secondary" size="small" (onClick)="dynamicDialogRef.close()" />
+    <p-button label="Complete" severity="success" size="small" (onClick)="onComplete()" />
+  </div>
+</div>

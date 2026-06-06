@@ -41,3 +41,43 @@
     background-color: #ebebeb;
   }
 }
+
+::ng-deep .tip-btn {
+  .p-button {
+    margin-top: 1rem;
+    width: 100%;
+  }
+}
+
+.user-list-container {
+  ul {
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+
+    li {
+      list-style: none;
+      display: flex;
+      align-items: center;
+      gap: .5rem;
+      padding: 0 8px;
+
+      p {
+        margin: 0;
+        font-size: 14px;
+      }
+
+      ::ng-deep p-button {
+        .p-button {
+          padding: 0;
+
+          .p-button-icon {
+            font-size: 12px;
+          }
+        }
+      }
+    }
+  }
+;
+}

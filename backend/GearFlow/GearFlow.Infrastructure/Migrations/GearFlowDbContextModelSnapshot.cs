@@ -37,6 +37,9 @@ namespace GearFlow.Infrastructure.Migrations
                     b.Property<int>("EquipmentId")
                         .HasColumnType("integer");
 
+                    b.Property<int?>("ReservationId")
+                        .HasColumnType("integer");
+
                     b.Property<int>("Status")
                         .HasColumnType("integer");
 
@@ -46,6 +49,9 @@ namespace GearFlow.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("EquipmentId");
+
+                    b.HasIndex("ReservationId")
+                        .IsUnique();
 
                     b.HasIndex("UserId");
 
@@ -223,11 +229,17 @@ namespace GearFlow.Infrastructure.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
+                    b.Property<DateTime?>("CompletedAt")
+                        .HasColumnType("timestamp with time zone");
+
                     b.Property<DateTime>("EndDate")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<int>("EquipmentId")
                         .HasColumnType("integer");
+
+                    b.Property<DateTime?>("PendingAt")
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<DateTime>("StartDate")
                         .HasColumnType("timestamp with time zone");
@@ -312,10 +324,14 @@ namespace GearFlow.Infrastructure.Migrations
             modelBuilder.Entity("GearFlow.Domain.Entities.Defect", b =>
                 {
                     b.HasOne("GearFlow.Domain.Entities.Equipment", "Equipment")
-                        .WithMany()
+                        .WithMany("Defects")
                         .HasForeignKey("EquipmentId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("GearFlow.Domain.Entities.Reservation", "Reservation")
+                        .WithOne("Defect")
+                        .HasForeignKey("GearFlow.Domain.Entities.Defect", "ReservationId");
 
                     b.HasOne("GearFlow.Domain.Entities.User", "User")
                         .WithMany()
@@ -324,6 +340,8 @@ namespace GearFlow.Infrastructure.Migrations
                         .IsRequired();
 
                     b.Navigation("Equipment");
+
+                    b.Navigation("Reservation");
 
                     b.Navigation("User");
                 });
@@ -402,6 +420,16 @@ namespace GearFlow.Infrastructure.Migrations
                         .IsRequired();
 
                     b.Navigation("Role");
+                });
+
+            modelBuilder.Entity("GearFlow.Domain.Entities.Equipment", b =>
+                {
+                    b.Navigation("Defects");
+                });
+
+            modelBuilder.Entity("GearFlow.Domain.Entities.Reservation", b =>
+                {
+                    b.Navigation("Defect");
                 });
 #pragma warning restore 612, 618
         }

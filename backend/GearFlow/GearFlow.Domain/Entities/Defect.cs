@@ -8,7 +8,9 @@ public class Defect : BaseEntity
     public DefectStatus Status { get; set; }
     public int UserId { get; set; }
     public int EquipmentId { get; set; }
+    public int? ReservationId { get; set; }
 
     public User User { get; set; }
     public Equipment Equipment { get; set; }
+    public Reservation? Reservation { get; set; }
 }

@@ -63,6 +63,14 @@ export const routes: Routes = [
             (m) => m.ReservationListComponent,
           ),
       },
+      {
+        path: 'pending',
+        canActivate: [adminGuard],
+        loadComponent: () =>
+          import('./features/reservations/pending-reservations/pending-reservations.component').then(
+            (m) => m.PendingReservationsComponent,
+          ),
+      },
     ],
   },
   {
@@ -78,6 +86,12 @@ export const routes: Routes = [
       import('./features/equipment-type/equipment-type.component').then(
         (m) => m.EquipmentTypeComponent,
       ),
+  },
+  {
+    path: 'statistic',
+    canActivate: [adminGuard],
+    loadComponent: () =>
+      import('./features/statistic/statistic.component').then((m) => m.StatisticComponent),
   },
   { path: '**', redirectTo: '/login', pathMatch: 'full' },
 ];

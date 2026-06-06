@@ -70,6 +70,7 @@ export interface Equipment {
   location?: Location;
   status?: EquipmentStatus;
   type?: EquipmentType;
+  defects?: Defect[];
 }
 
 // FILTER ITEM
@@ -85,7 +86,33 @@ export interface Reservation {
   endDate: Date;
   userId: number;
   equipmentId: number;
-  status: string;
+  status: number;
   user?: User;
   equipment?: Equipment;
+  completedAt?: Date;
+  pendingAt?: Date;
+}
+
+// DEFECTS
+export interface Defect {
+  id: number;
+  comment: string;
+}
+
+// STATISTIC
+export interface Statistic {
+  totalReservations: number;
+  activeReservations: number;
+  avgDurationDays: number;
+  totalDefects: number;
+  topEquipment: { name: string; count: number }[];
+  byMonth: { month: string; count: number }[];
+  byType: { typeName: string; count: number }[];
+}
+
+// ADMIN RESERVATIONS
+export interface AdminReservations {
+  active: Reservation[];
+  history: Reservation[];
+  pending: Reservation[];
 }

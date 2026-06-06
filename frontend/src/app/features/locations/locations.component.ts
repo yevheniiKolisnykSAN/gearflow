@@ -11,6 +11,8 @@ import { FormInputComponent } from '../../shared/components/form-input/form-inpu
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Popover } from 'primeng/popover';
 import { ValidatorType, validatorWithMessage } from '../../shared/helpers/validators';
+import { CsvExportService } from '../../core/services/csv-export.service';
+import { PdfExportService } from '../../core/services/pdf-export.service';
 
 @Component({
   selector: 'app-locations',
@@ -31,6 +33,8 @@ export class LocationsComponent implements OnInit {
   private readonly locationService = inject(LocationService);
   private readonly confirmService = inject(ConfirmService);
   private toastService = inject(ToastService);
+  private readonly csvExport = inject(CsvExportService);
+  private readonly pdfExport = inject(PdfExportService);
 
   public locations = signal<Location[]>([]);
   public loading = signal(false);
@@ -38,6 +42,14 @@ export class LocationsComponent implements OnInit {
 
   ngOnInit() {
     this.loadData();
+  }
+
+  exportCsv(): void {
+    this.csvExport.export({ fileName: 'locations.csv', columns: ['Name'], rows: this.locations().map((l) => [l.name]) });
+  }
+
+  exportPdf(): void {
+    this.pdfExport.export({ title: 'Locations', fileName: 'locations.pdf', columns: ['Name'], rows: this.locations().map((l) => [l.name]) });
   }
 
   public loadData(): void {

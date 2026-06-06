@@ -15,4 +15,5 @@ public class Equipment : BaseEntity
     public Location Location { get; set; }
     public EquipmentStatus Status { get; set; }
     public EquipmentType Type { get; set; }
+    public ICollection<Defect> Defects { get; set; } = new List<Defect>();
 }

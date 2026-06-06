@@ -49,8 +49,18 @@ export class NavBarComponent implements OnInit {
           },
           {
             label: 'Equipment Types',
-            icon: 'pi pi-map-marker',
+            icon: 'pi pi-th-large',
             routerLink: '/equipment-types',
+          },
+          {
+            label: 'Pending reservations',
+            icon: 'pi pi-stopwatch',
+            routerLink: '/reservation/pending',
+          },
+          {
+            label: 'Statistic',
+            icon: 'pi pi-chart-bar',
+            routerLink: '/statistic',
           },
         ],
       });

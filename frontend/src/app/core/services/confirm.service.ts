@@ -7,7 +7,7 @@ import { ConfirmationService } from 'primeng/api';
 export class ConfirmService {
   private confirmationService = inject(ConfirmationService);
 
-  public show(message: string, onDelete: () => void) {
+  public show(message: string, onDelete: () => void, btnConfig?: ConfirmButtonConfig) {
     this.confirmationService.confirm({
       message,
       icon: 'pi pi-info-circle',
@@ -19,8 +19,8 @@ export class ConfirmService {
         outlined: true
       },
       acceptButtonProps: {
-        label: 'Delete',
-        severity: 'danger'
+        label: btnConfig?.label ?? 'Delete',
+        severity: btnConfig?.severity ?? 'danger'
       },
 
       accept: () => {
@@ -28,4 +28,9 @@ export class ConfirmService {
       },
     });
   }
+}
+
+interface ConfirmButtonConfig {
+  severity: 'success' | 'error' | 'danger';
+  label: string;
 }
