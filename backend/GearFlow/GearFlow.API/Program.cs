@@ -161,6 +161,7 @@ using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<GearFlowDbContext>();
     var hasher = scope.ServiceProvider.GetRequiredService<IPasswordHasher>();
+    await db.Database.MigrateAsync();
     await DataSeeder.WipeAsync(db);
     await DataSeeder.SeedAsync(db, hasher);
 }
