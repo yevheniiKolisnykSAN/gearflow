@@ -6,6 +6,7 @@ COPY GearFlow/GearFlow.API/GearFlow.API.csproj GearFlow.API/
 COPY GearFlow/GearFlow.Application/GearFlow.Application.csproj GearFlow.Application/
 COPY GearFlow/GearFlow.Domain/GearFlow.Domain.csproj GearFlow.Domain/
 COPY GearFlow/GearFlow.Infrastructure/GearFlow.Infrastructure.csproj GearFlow.Infrastructure/
+COPY GearFlow/GearFlow.Tests/GearFlow.Tests.csproj GearFlow.Tests/
 RUN dotnet restore GearFlow.sln
 
 COPY GearFlow/ .
